@@ -3,14 +3,13 @@
 namespace CQRS\Event;
 
 use CQRS\Event\Store\DeserializableEvent;
-use CQRS\Event\Store\SerializableEvent;
+use CQRS\Event\Store\Serializable;
+use CQRS\NamedResource;
 use DateTimeImmutable;
 
-abstract class Event implements SerializableEvent, DeserializableEvent
+abstract class Event implements Serializable, DeserializableEvent, NamedResource
 {
     private $occurredOn;
-
-    abstract public static function getName(): string;
 
     public function __construct(DateTimeImmutable $occurredOn = null)
     {

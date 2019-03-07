@@ -2,7 +2,7 @@
 
 namespace CQRS\Event\Store;
 
-interface SerializableEvent
+interface Serializable
 {
     public function serialize(): array;
 }

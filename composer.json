@@ -23,6 +23,7 @@
         }
     },
     "require": {
-        "jakubgiminski/collection": "^1.2"
+        "jakubgiminski/collection": "^1.2",
+        "psr/container": "^1.0"
     }
 }

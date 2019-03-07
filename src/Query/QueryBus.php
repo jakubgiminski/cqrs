@@ -3,7 +3,7 @@
 namespace CQRS\Query;
 
 use CQRS\BusException;
-use CQRS\HandlerProvider;
+use CQRS\Command\CommandHandlerProvider;
 use Exception;
 
 class QueryBus
@@ -12,7 +12,7 @@ class QueryBus
 
     private $handlerProvider;
 
-    public function __construct(RegisteredQueries $registeredQueries, HandlerProvider $handlerProvider)
+    public function __construct(RegisteredQueries $registeredQueries, CommandHandlerProvider $handlerProvider)
     {
         $this->registeredQueries = $registeredQueries;
         $this->handlerProvider = $handlerProvider;

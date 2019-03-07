@@ -3,8 +3,8 @@
 namespace CQRSTest\Command;
 
 use CQRS\Command\CommandBus;
-use CQRS\Command\RegisteredCommands;
-use CQRS\HandlerProvider;
+use CQRS\Command\Config\RegisteredCommands;
+use CQRS\Command\CommandHandlerProvider;
 use CQRSTest\Fixture\Command\DoSomething\DoSomething;
 use CQRSTest\Fixture\Command\DoSomething\DoSomethingHandler;
 use PHPUnit\Framework\TestCase;
@@ -16,7 +16,7 @@ class CommandBusTest extends TestCase
     {
         $commandBus = new CommandBus(
             new RegisteredCommands(),
-            $this->createMock(HandlerProvider::class)
+            $this->createMock(CommandHandlerProvider::class)
         );
 
         self::assertInstanceOf(
@@ -30,7 +30,7 @@ class CommandBusTest extends TestCase
     {
         $command = new DoSomething('something id');
 
-        $handlerProvider = $this->createMock(HandlerProvider::class);
+        $handlerProvider = $this->createMock(CommandHandlerProvider::class);
         $handlerProvider
             ->method('get')
             ->with(DoSomethingHandler::class)

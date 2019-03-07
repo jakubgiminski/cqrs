@@ -3,7 +3,7 @@
 namespace CQRS\Event\Bus;
 
 use CQRS\BusException;
-use CQRS\HandlerProvider;
+use CQRS\Command\CommandHandlerProvider;
 use Exception;
 
 class EventBus
@@ -12,7 +12,7 @@ class EventBus
 
     private $handlerProvider;
 
-    public function __construct(RegisteredEvents $registeredEvents, HandlerProvider $handlerProvider)
+    public function __construct(RegisteredEvents $registeredEvents, CommandHandlerProvider $handlerProvider)
     {
         $this->registeredEvents = $registeredEvents;
         $this->handlerProvider = $handlerProvider;

@@ -3,7 +3,7 @@
 namespace CQRSTest\BusConfig;
 
 use CQRS\BusConfig\BusConfigException;
-use CQRS\Command\RegisteredCommands;
+use CQRS\Command\Config\RegisteredCommands;
 use CQRSTest\Fixture\Command\DoSomething\DoSomething;
 use CQRSTest\Fixture\Command\DoSomething\DoSomethingHandler;
 use CQRSTest\Fixture\Command\DoSomethingElse\DoSomethingElse;

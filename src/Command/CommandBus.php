@@ -3,33 +3,39 @@
 namespace CQRS\Command;
 
 use CQRS\BusException;
-use CQRS\HandlerProvider;
+use CQRS\Command\Report\CommandBusReporter;
+use CQRS\NamedResource;
 use Exception;
 
-class CommandBus
+class CommandBus implements NamedResource
 {
-    private $registeredCommands;
+    private const NAME = 'COMMAND BUS';
 
     private $handlerProvider;
 
-    public function __construct(RegisteredCommands $registeredCommands, HandlerProvider $handlerProvider)
+    private $reporter;
+
+    public function __construct(CommandHandlerProvider $handlerProvider, CommandBusReporter $reporter)
     {
-        $this->registeredCommands = $registeredCommands;
         $this->handlerProvider = $handlerProvider;
+        $this->reporter = $reporter;
     }
 
-    public function handle($command)
+    public function handle(Command $command)
     {
-        $this->registeredCommands->mustContain($command);
-
-        $handler = $this->handlerProvider->get(
-            $this->registeredCommands->getHandlerClassName($command)
-        );
-
         try {
-            return $handler->handle($command);
+            $handler = $this->handlerProvider->getForCommand($command::getName());
+            $handler->handle($command);
         } catch (Exception $exception) {
-            throw BusException::handlingFailed(get_class($command), $exception);
+            $exception = new BusException($command::getName(), $exception);
+            $this->reporter->reportError($exception);
+            throw $exception;
         }
+        $this->reporter->reportSuccess($command::getName());
+    }
+
+    public static function getName(): string
+    {
+        return self::NAME;
     }
 }

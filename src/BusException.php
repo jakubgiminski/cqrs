@@ -7,10 +7,24 @@ use RuntimeException;
 
 class BusException extends RuntimeException
 {
-    public static function handlingFailed(string $handledClassName, Exception $parentException): self
+    private $name;
+
+    private $parentException;
+
+    public function __construct(string $name, Exception $parentException)
     {
-        return new static(
-            "Handling of $handledClassName failed with message: {$parentException->getMessage()}"
-        );
+        $this->name = $name;
+        $this->parentException = $parentException;
+        parent::__construct( "Handling of $name failed with message: {$parentException->getMessage()}");
+    }
+
+    public function getName(): string
+    {
+        return $this->name;
+    }
+
+    public function getParentExceptionMessage(): string
+    {
+        return $this->parentException->getMessage();
     }
 }
